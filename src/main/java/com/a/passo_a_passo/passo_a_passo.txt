@@ -1,2 +1,4 @@
 Criação do projeto através do SpringBoot
 Criação da classe CategoriaResource
+Criação da classe Categoria no pacote domain
+Teste da classe Categoria na classe CategoriaResource
