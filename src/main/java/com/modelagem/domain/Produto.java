@@ -8,39 +8,47 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 // implementar Serializable
-// adicionar anotação da JPA para transformar essa classe em entidade no banco de dados
+//adicionar anotação da JPA para transformar essa classe em entidade no banco de dados
 @Entity
-public class Categoria implements Serializable {
+public class Produto implements Serializable {
 	
 	// versão default (versão 1, ou primeira versão)
 	private static final long serialVersionUID = 1L;
-	
-	// declaração dos atributos
+
+	// atributos básicos
 	// transformar atributos em valores na tabela no banco de dados
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY) // IDENTIY para geração de chave primária
 	private Integer id;
 	private String nome;
+	private Double preco;
 	
-	// associação com a classe Produto --> sendo o papel produtos o mesmo da modelagem de dados
-	@ManyToMany(mappedBy = "categorias")
-	private List<Produto> produtos = new ArrayList<>();
+	// associação com a classe Categoria --> sendo categorias o mesmo papel da modelagem de dados
+	// utilizar anotação JoinTable da JPA para realizar as associações
+	@ManyToMany
+	@JoinTable(name = "PRODUTO_CATEGORIA",
+		joinColumns = @JoinColumn(name = "produto_id"),
+		inverseJoinColumns = @JoinColumn(name = "categoria_id")
+	)
+	private List<Categoria> categorias = new ArrayList<>();
 	
 	// construtor vazio
-	public Categoria() {
+	public Produto() {
 	}
-	
-	// construtor com parâmetros
-	public Categoria(Integer id, String nome) {
+
+	// construtor com parâmetros, menos o que for coleção (Categoria)
+	public Produto(Integer id, String nome, Double preco) {
 		super();
 		this.id = id;
 		this.nome = nome;
+		this.preco = preco;
 	}
 
-	// getters and setters
 	public Integer getId() {
 		return id;
 	}
@@ -56,17 +64,24 @@ public class Categoria implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
-	// adicionado posteriormente
-	public List<Produto> getProdutos() {
-		return produtos;
+
+	public Double getPreco() {
+		return preco;
 	}
 
-	public void setProdutos(List<Produto> produtos) {
-		this.produtos = produtos;
+	public void setPreco(Double preco) {
+		this.preco = preco;
 	}
 
-	// hashCode and equals - para comparar os objetos por valor (id)
+	public List<Categoria> getCategorias() {
+		return categorias;
+	}
+
+	public void setCategorias(List<Categoria> categorias) {
+		this.categorias = categorias;
+	}
+
+	// hashCode e equals somente para o id
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -83,7 +98,7 @@ public class Categoria implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Categoria other = (Categoria) obj;
+		Produto other = (Produto) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -91,4 +106,4 @@ public class Categoria implements Serializable {
 			return false;
 		return true;
 	}
-}	
+}
