@@ -2,13 +2,23 @@ package com.modelagem.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 // implementar Serializable
+// adicionar annotation para transformar essa classe em entidade no banco de dados
+@Entity
 public class Categoria implements Serializable {
 	
 	// versão default (versão 1, ou primeira versão)
 	private static final long serialVersionUID = 1L;
 	
 	// declaração dos atributos
+	// transformar atributos em valores na tabela no banco de dados
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY) // IDENTIY para geração de chave primária
 	private Integer id;
 	private String nome;
 	
