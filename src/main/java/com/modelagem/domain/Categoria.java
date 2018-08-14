@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 // implementar Serializable
 // adicionar anotação da JPA para transformar essa classe em entidade no banco de dados
 @Entity
@@ -26,6 +28,7 @@ public class Categoria implements Serializable {
 	private String nome;
 	
 	// associação com a classe Produto --> sendo o papel produtos o mesmo da modelagem de dados
+	@JsonManagedReference
 	@ManyToMany(mappedBy = "categorias")
 	private List<Produto> produtos = new ArrayList<>();
 	

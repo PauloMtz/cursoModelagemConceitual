@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 // implementar Serializable
 //adicionar anotação da JPA para transformar essa classe em entidade no banco de dados
 @Entity
@@ -30,6 +32,7 @@ public class Produto implements Serializable {
 	
 	// associação com a classe Categoria --> sendo categorias o mesmo papel da modelagem de dados
 	// utilizar anotação JoinTable da JPA para realizar as associações
+	@JsonBackReference
 	@ManyToMany
 	@JoinTable(name = "PRODUTO_CATEGORIA",
 		joinColumns = @JoinColumn(name = "produto_id"),
