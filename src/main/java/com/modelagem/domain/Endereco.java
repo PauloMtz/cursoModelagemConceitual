@@ -2,11 +2,21 @@ package com.modelagem.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Endereco implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	// declara os atributos
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id_endereco;
 	private String logradouro;
 	private String numero;
@@ -14,10 +24,15 @@ public class Endereco implements Serializable {
 	private String bairro;
 	private String cep;
 	
-	// associação com cliente --> endereço tem apenas um cliente
+	// associação com cliente --> um endereço pertence a um cliente
+	// no entanto, um cliente pode ter mais de um endereço
+	@ManyToOne
+	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
 	
 	// associar endereço com cidade --> endereço tem apenas uma cidade
+	@ManyToOne
+	@JoinColumn(name="cidade_id")
 	private Cidade cidade;
 
 	// construtor vazio

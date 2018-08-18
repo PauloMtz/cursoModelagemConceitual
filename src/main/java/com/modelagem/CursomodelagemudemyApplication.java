@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.modelagem.domain.Categoria;
 import com.modelagem.domain.Cidade;
+import com.modelagem.domain.Cliente;
+import com.modelagem.domain.Endereco;
 import com.modelagem.domain.Estado;
 import com.modelagem.domain.Produto;
+import com.modelagem.domain.enums.TipoCliente;
 import com.modelagem.repositories.CategoriaRepository;
 import com.modelagem.repositories.CidadeRepository;
+import com.modelagem.repositories.ClienteRepository;
+import com.modelagem.repositories.EnderecoRepository;
 import com.modelagem.repositories.EstadoRepository;
 import com.modelagem.repositories.ProdutoRepository;
 
@@ -27,6 +32,10 @@ public class CursomodelagemudemyApplication implements CommandLineRunner {
 	private EstadoRepository estadoRepository;
 	@Autowired
 	private CidadeRepository cidadeRepository;
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomodelagemudemyApplication.class, args);
@@ -77,5 +86,24 @@ public class CursomodelagemudemyApplication implements CommandLineRunner {
 		// salvar os estados e cidades no banco
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
+		
+		// ----------------- PARTE 03 ------------------------------------
+		
+		// instancia clientes
+		Cliente cli1 = new Cliente(null, "Maria da Silva", "mariasilva@email.com", "123.456.789-10", TipoCliente.PESSOAFISICA);
+		
+		// adiciona telefones
+		cli1.getTelefones().addAll(Arrays.asList("(12) 99876-5432", "(12) 3456-7890"));
+		
+		// instancia endereço
+		Endereco e1 = new Endereco(null, "Rua Teste", "300", "Casa", "Cidade Jardim", "38.220-000", cli1, c1);
+		Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "38.777-012", cli1, c2);
+		
+		// o cliente precisa saber seus endereços
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		
+		// salvar no banco
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		enderecoRepository.saveAll(Arrays.asList(e1, e2));
 	}
 }

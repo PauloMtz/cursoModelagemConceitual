@@ -25,7 +25,7 @@ public enum TipoCliente {
 		return descricao;
 	}
 	
-	// algoritmo para varrer o código e retornar o tipo de cliente
+	// método para varrer o código e retornar o tipo de cliente
 	public static TipoCliente toEnum(Integer cod) {
 		
 		// testa se o valor é nulo

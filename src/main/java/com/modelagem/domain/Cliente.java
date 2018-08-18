@@ -6,13 +6,24 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
 import com.modelagem.domain.enums.TipoCliente;
 
+@Entity
 public class Cliente implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	// declara os atributos
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id_cliente;
 	private String nome;
 	private String email;
@@ -22,10 +33,14 @@ public class Cliente implements Serializable {
 	private Integer tipo;
 	
 	// associação com endereço --> um cliente por ter mais de um endereço
+	// e, um endereço pode ser de vários clientes
+	@OneToMany(mappedBy="cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
 	
 	// como telefones é uma entidade fraca, ela pode ser instanciada aqui
 	// foi usada coleção do tipo SET, que não aceita repetição
+	@ElementCollection
+	@CollectionTable(name="TELEFONE")
 	private Set<String> telefones = new HashSet<>();
 
 	// construtor vazio
