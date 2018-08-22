@@ -1,7 +1,10 @@
 package com.modelagem.domain;
 
+import javax.persistence.Entity;
+
 import com.modelagem.domain.enums.EstadoPagamento;
 
+@Entity
 public class PagamentoComCartao extends Pagamento {
 	
 	// subclasse não precisa de implementar Serializable, mas precisa da versão

@@ -2,8 +2,11 @@ package com.modelagem.domain;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+
 import com.modelagem.domain.enums.EstadoPagamento;
 
+@Entity
 public class PagamentoComBoleto extends Pagamento {
 	
 	// subclasse não precisa de implementar Serializable, mas precisa da versão

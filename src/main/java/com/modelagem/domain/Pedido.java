@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -25,9 +27,13 @@ public class Pedido implements Serializable {
 	private Pagamento pagamento;
 	
 	// associação com cliente
+	@ManyToOne
+	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
 	
 	// associação com endereço
+	@ManyToOne
+	@JoinColumn(name="endereco_entrega_id")
 	private Endereco enderecoEntrega;
 
 	// construtor vazio
@@ -36,11 +42,10 @@ public class Pedido implements Serializable {
 	}
 
 	// construtor com argumentos
-	public Pedido(Integer id, Date dataHora, Pagamento pagamento, Cliente cliente, Endereco enderecoEntrega) {
+	public Pedido(Integer id, Date dataHora, Cliente cliente, Endereco enderecoEntrega) {
 		super();
 		this.id = id;
 		this.dataHora = dataHora;
-		this.pagamento = pagamento;
 		this.cliente = cliente;
 		this.enderecoEntrega = enderecoEntrega;
 	}
