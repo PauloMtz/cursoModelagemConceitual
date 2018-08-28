@@ -13,6 +13,7 @@ import com.modelagem.domain.Cidade;
 import com.modelagem.domain.Cliente;
 import com.modelagem.domain.Endereco;
 import com.modelagem.domain.Estado;
+import com.modelagem.domain.ItemPedido;
 import com.modelagem.domain.Pagamento;
 import com.modelagem.domain.PagamentoComBoleto;
 import com.modelagem.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.modelagem.repositories.CidadeRepository;
 import com.modelagem.repositories.ClienteRepository;
 import com.modelagem.repositories.EnderecoRepository;
 import com.modelagem.repositories.EstadoRepository;
+import com.modelagem.repositories.ItemPedidoRepository;
 import com.modelagem.repositories.PagamentoRepository;
 import com.modelagem.repositories.PedidoRepository;
 import com.modelagem.repositories.ProdutoRepository;
@@ -48,6 +50,8 @@ public class CursomodelagemudemyApplication implements CommandLineRunner {
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomodelagemudemyApplication.class, args);
@@ -140,5 +144,24 @@ public class CursomodelagemudemyApplication implements CommandLineRunner {
 		// salva os pedidos e pagamentos no banco de dados
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pgto1, pgto2));
+		
+		// ----------------- PARTE 05 ------------------------------------
+		
+		// instancia itemPedido
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 1800.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 1, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		
+		// associa pedido e itemPedido
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		// associa produto e itemPedido
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		// para salvar --> criar repository
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 	}
 }
