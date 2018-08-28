@@ -14,8 +14,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+// import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+// import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.modelagem.domain.enums.TipoCliente;
 
 @Entity
@@ -37,7 +38,7 @@ public class Cliente implements Serializable {
 	// associação com endereço --> um cliente por ter mais de um endereço
 	// e, um endereço pode ser de vários clientes
 	// a anotação Json protege contra a serialização cíclica
-	@JsonManagedReference // cliente serializa endereço, porém este não efetua o inverso
+	// @JsonManagedReference // cliente serializa endereço, porém este não efetua o inverso
 	@OneToMany(mappedBy="cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
 	
@@ -48,7 +49,7 @@ public class Cliente implements Serializable {
 	private Set<String> telefones = new HashSet<>();
 	
 	// cliente também pode ter vários pedidos
-	@JsonBackReference
+	@JsonIgnore
 	@OneToMany(mappedBy="cliente")
 	private List<Pedido> pedidos = new ArrayList<>();
 
